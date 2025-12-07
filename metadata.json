@@ -1,0 +1,7 @@
+{
+  "name": "Copy of Caloriz.ai",
+  "description": "AI-powered nutrition and fitness tracker with food recognition.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
