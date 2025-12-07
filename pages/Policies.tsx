@@ -23,37 +23,38 @@ export default function PoliciesPage() {
       title: 'Termos de Uso',
       content: (
         <div className="space-y-4 text-sm text-zinc-600 dark:text-zinc-400">
-          <p className="font-bold">Última atualização: 03/12/2025</p>
-          
           <h4 className="font-bold dark:text-zinc-200 text-gray-800">1. Introdução</h4>
           <p>Este documento estabelece os Termos de Uso da plataforma Caloriz.ai, doravante denominada “Plataforma” ou “Serviço”. Ao criar uma conta, acessar ou utilizar a Plataforma, o usuário declara estar de pleno acordo com todas as condições aqui descritas. Caso não concorde com qualquer cláusula, o usuário não deve utilizar o Serviço.</p>
 
           <h4 className="font-bold dark:text-zinc-200 text-gray-800">2. Objeto da Plataforma</h4>
-          <p>A Caloriz.ai oferece funcionalidades voltadas para: Contagem automática e manual de calorias; Estimativa nutricional por IA via fotografia; Dashboard de acompanhamento; Planos de treino e plano alimentar; Recursos exclusivos para assinantes premium. A Plataforma não substitui orientação profissional de nutricionistas, médicos ou educadores físicos.</p>
+          <p>A Caloriz.ai oferece funcionalidades voltadas para: Contagem automática e manual de calorias; Estimativa nutricional por IA via fotografia (calorias, proteínas, carboidratos, gorduras e fibras); Dashboard de acompanhamento; Planos de treino e plano alimentar; Recursos exclusivos para assinantes premium; Acompanhamento e monitoramento do uso do Serviço; Controle de assinatura, cancelamento e trial. A Plataforma não substitui orientação profissional de nutricionistas, médicos ou educadores físicos.</p>
 
           <h4 className="font-bold dark:text-zinc-200 text-gray-800">3. Elegibilidade</h4>
           <p>O uso é permitido apenas para: Pessoas maiores de 13 anos (com supervisão responsável); Pessoas que concordam integralmente com os Termos; Usuários que forneçam informações verdadeiras no cadastro.</p>
 
           <h4 className="font-bold dark:text-zinc-200 text-gray-800">4. Conta do Usuário</h4>
-          <p>Ao criar uma conta, o usuário concorda em fornecer dados válidos e manter sua senha segura. O sistema de login é vinculado ao Supabase e requer validação por e-mail.</p>
+          <p>Ao criar uma conta, o usuário concorda em: Fornecer nome, e-mail, telefone e senha válidos; Manter os dados atualizados; Não compartilhar credenciais com terceiros; Responsabilizar-se por todas as ações realizadas em sua conta. O sistema de login é vinculado ao Supabase e requer validação por código enviado ao e-mail.</p>
 
           <h4 className="font-bold dark:text-zinc-200 text-gray-800">5. Uso da Plataforma</h4>
-          <p>É proibido: Engenharia reversa, compartilhamento de acesso, uso comercial sem autorização, difamação ou fraude.</p>
+          <p>O usuário concorda em utilizar o Serviço para fins lícitos e adequados, sendo proibido: Tentativas de engenharia reversa; Compartilhamento de acesso; Uso para fins comerciais sem autorização; Difamação, fraude ou má fé.</p>
 
           <h4 className="font-bold dark:text-zinc-200 text-gray-800">6. Assinaturas, Trial e Pagamentos</h4>
-          <p>O plano premium é cobrado mensal ou anualmente. O trial gratuito possui duração de 3 dias. Ao expirar o trial, o acesso é bloqueado até a contratação.</p>
+          <p>O plano premium é cobrado mensal ou anualmente. O trial gratuito possui duração de 3 dias, sem cobrança inicial. Ao expirar o trial, o acesso é bloqueado até a contratação de um plano. O gateway enviará um webhook confirmando aprovação ou reprovação da compra, determinando o status da conta.</p>
 
           <h4 className="font-bold dark:text-zinc-200 text-gray-800">7. Cancelamento</h4>
-          <p>O usuário pode solicitar cancelamento diretamente na Plataforma. O cancelamento não gera reembolso automático.</p>
+          <p>O usuário pode solicitar cancelamento diretamente na Plataforma. O cancelamento não gera reembolso automático, seguindo a política de reembolso descrita neste documento.</p>
 
           <h4 className="font-bold dark:text-zinc-200 text-gray-800">8. Suspensão ou Banimento</h4>
-          <p>A Plataforma reserva-se o direito de suspender contas que violem estes Termos ou pratiquem chargeback indevido.</p>
+          <p>A Plataforma reserva-se o direito de suspender ou encerrar contas que: violem estes Termos; pratiquem chargeback indevido; utilizem a Plataforma de forma abusiva ou fraudulenta. Em caso de banimento, a plataforma exibirá notificação permanente e justificativa registrada.</p>
 
           <h4 className="font-bold dark:text-zinc-200 text-gray-800">9. Registros e Auditoria</h4>
-          <p>Registramos automaticamente: Data/hora de login, dispositivo, páginas acessadas, tempo de sessão e ações relevantes para proteção legal.</p>
+          <p>Para proteção da empresa e dos usuários, registramos automaticamente: Data e horário de cada login; Dispositivo; Páginas acessadas; Tempo de sessão; Ações relevantes dentro da plataforma; Status da assinatura; Histórico de pagamentos. Esses registros podem ser utilizados em disputas, auditorias e investigações internas.</p>
 
           <h4 className="font-bold dark:text-zinc-200 text-gray-800">10. Limitação de Responsabilidade</h4>
-          <p>A Plataforma não se responsabiliza por resultados estéticos, físicos ou decisões alimentares tomadas com base apenas nas estimativas da IA.</p>
+          <p>A Plataforma não se responsabiliza por: danos indiretos resultantes do uso; expectativas não atendidas; resultados estéticos, físicos ou nutricionais; decisões alimentares tomadas com base apenas nas estimativas da IA.</p>
+
+          <h4 className="font-bold dark:text-zinc-200 text-gray-800">11. Modificações</h4>
+          <p>A Caloriz.ai pode atualizar estes Termos a qualquer momento. A continuidade do uso significa concordância com as alterações.</p>
         </div>
       )
     },
@@ -62,25 +63,19 @@ export default function PoliciesPage() {
       title: 'Política de Reembolso',
       content: (
         <div className="space-y-4 text-sm text-zinc-600 dark:text-zinc-400">
-          <p className="font-bold">Última atualização: 03/12/2025</p>
-          <p>A Caloriz.ai oferece garantia de 7 dias após a aprovação da assinatura, conforme previsto no Código de Defesa do Consumidor (CDC).</p>
+          <p>A Caloriz.ai oferece garantia de 7 dias após a aprovação da assinatura, conforme previsto no Código de Defesa do Consumidor (CDC) para compras digitais.</p>
           
           <h4 className="font-bold dark:text-zinc-200 text-gray-800">1. Requisitos para Reembolso</h4>
-          <ul className="list-disc pl-5 space-y-1">
-            <li>Estar dentro do período de 7 dias;</li>
-            <li>Assinatura aprovada;</li>
-            <li>Pedido feito pelo canal oficial.</li>
-          </ul>
+          <p>O usuário poderá solicitar reembolso quando: estiver dentro do período de 7 dias; a assinatura tiver sido aprovada; o pedido for feito pelo canal oficial.</p>
 
-          <h4 className="font-bold dark:text-zinc-200 text-gray-800">2. Casos onde NÃO há Reembolso</h4>
-          <ul className="list-disc pl-5 space-y-1">
-            <li>Uso comprovado após 7 dias;</li>
-            <li>Tentativas de fraude ou má fé;</li>
-            <li>Chargeback solicitado sem contato prévio.</li>
-          </ul>
+          <h4 className="font-bold dark:text-zinc-200 text-gray-800">2. Casos em que o Reembolso NÃO é concedido</h4>
+          <p>Uso comprovado da plataforma após o período de 7 dias; Tentativas de fraude ou má fé; Uso intensivo da plataforma com posterior solicitação para prejudicar o negócio; Chargeback solicitado sem tentativa prévia de contato.</p>
 
-          <h4 className="font-bold dark:text-zinc-200 text-gray-800">3. Como Solicitar</h4>
-          <p>O pedido deve ser feito pelo botão de reembolso dentro do aplicativo ou por contato via suporte. Prazo de processamento: até 7 dias úteis.</p>
+          <h4 className="font-bold dark:text-zinc-200 text-gray-800">3. Como Solicitar o Reembolso</h4>
+          <p>O pedido deve ser feito pelo botão de reembolso dentro do aplicativo ou por contato via suporte. O prazo para processamento é de até 7 dias úteis.</p>
+
+          <h4 className="font-bold dark:text-zinc-200 text-gray-800">4. Registros de Uso</h4>
+          <p>Informações de login, tempo de uso e páginas acessadas podem ser utilizadas para análise da solicitação e comprovação perante bancos e operadoras.</p>
         </div>
       )
     },
@@ -89,13 +84,16 @@ export default function PoliciesPage() {
       title: 'Política Anti-Chargeback',
       content: (
         <div className="space-y-4 text-sm text-zinc-600 dark:text-zinc-400">
-           <p>O objetivo desta política é proteger a empresa e os usuários de fraudes.</p>
+           <p>O objetivo desta política é proteger a empresa e os usuários de fraudes e solicitações indevidas.</p>
 
-           <h4 className="font-bold dark:text-zinc-200 text-gray-800">Conduta da Empresa</h4>
-           <p>Em caso de chargeback, enviaremos ao banco: registros de uso, logs de acesso, aceitação dos termos e confirmação de assinatura.</p>
+           <h4 className="font-bold dark:text-zinc-200 text-gray-800">1. O que é chargeback</h4>
+           <p>Chargeback é a contestação da cobrança junto ao banco.</p>
 
-           <h4 className="font-bold dark:text-zinc-200 text-gray-800">Consequências</h4>
-           <p>Chargebacks fraudulentos resultarão em cancelamento da conta, banimento permanente e possível ação legal.</p>
+           <h4 className="font-bold dark:text-zinc-200 text-gray-800">2. Conduta da Empresa</h4>
+           <p>Em caso de chargeback, a empresa enviará ao banco: registros de uso do aluno; datas e horas de login; atividades realizadas; aceitação dos termos; confirmação de assinatura; acesso ao plano premium e recursos utilizados.</p>
+
+           <h4 className="font-bold dark:text-zinc-200 text-gray-800">3. Conduta do Usuário</h4>
+           <p>O usuário concorda em: não solicitar chargeback de forma indevida; contactar o suporte antes de abrir disputa; respeitar a política de reembolso e garantia. Chargebacks fraudulentos resultarão em: cancelamento de conta; banimento permanente; possível ação legal.</p>
         </div>
       )
     },
@@ -104,7 +102,12 @@ export default function PoliciesPage() {
         title: 'Política de Garantia',
         content: (
           <div className="space-y-4 text-sm text-zinc-600 dark:text-zinc-400">
-             <p>A Caloriz.ai fornece garantia de 7 dias corridos após a aprovação da assinatura. A garantia cobre apenas o valor pago e não se aplica se o usuário abriu chargeback antes de solicitar reembolso ou apresentou uso extensivo após o prazo legal.</p>
+             <h4 className="font-bold dark:text-zinc-200 text-gray-800">1. Garantia Legal</h4>
+             <p>A Caloriz.ai fornece garantia de 7 dias corridos após a aprovação da assinatura.</p>
+             <h4 className="font-bold dark:text-zinc-200 text-gray-800">2. Limitações</h4>
+             <p>A garantia cobre apenas o valor pago pela assinatura e não se aplica quando: a solicitação ocorre após o prazo legal; o usuário apresentou uso relevante da plataforma; o usuário abriu chargeback antes de solicitar reembolso.</p>
+             <h4 className="font-bold dark:text-zinc-200 text-gray-800">3. Procedimentos</h4>
+             <p>A análise leva em consideração: datas de login, páginas acessadas, duração da sessão, utilização dos recursos premium.</p>
           </div>
         )
     },
@@ -113,22 +116,26 @@ export default function PoliciesPage() {
         title: 'Termos de Assinatura',
         content: (
           <div className="space-y-4 text-sm text-zinc-600 dark:text-zinc-400">
-             <p><span className="font-bold">Modelos:</span> Mensal (R$19,90) e Anual (R$127,00).</p>
-             <p><span className="font-bold">Renovação:</span> Automática até cancelamento.</p>
-             <p><span className="font-bold">Cancelamento:</span> Pode ser feito a qualquer momento, sem reembolso dos dias já utilizados.</p>
-             <p><span className="font-bold">Bloqueio:</span> Após 24h sem pagamento, o acesso premium é suspenso.</p>
+             <h4 className="font-bold dark:text-zinc-200 text-gray-800">1. Modelos de Assinatura</h4>
+             <p>Mensal — R$19,90</p>
+             <p>Anual — R$127,00</p>
+             <h4 className="font-bold dark:text-zinc-200 text-gray-800">2. Renovação Automática</h4>
+             <p>As assinaturas são renovadas automaticamente até cancelamento do usuário.</p>
+             <h4 className="font-bold dark:text-zinc-200 text-gray-800">3. Cancelamento</h4>
+             <p>O usuário pode cancelar quando quiser, porém não haverá reembolso dos períodos já utilizados.</p>
+             <h4 className="font-bold dark:text-zinc-200 text-gray-800">4. Bloqueio por Falha no Pagamento</h4>
+             <p>Em caso de reprovação no cartão, o sistema exibirá aviso. Após 24h sem regularização, o acesso premium é suspenso.</p>
           </div>
         )
     },
     {
         id: 'dispute',
-        title: 'Declaração em Caso de Disputa',
+        title: 'Declaração Oficial para Disputas',
         content: (
           <div className="space-y-4 text-sm text-zinc-600 dark:text-zinc-400 bg-gray-100 dark:bg-zinc-800 p-4 rounded-xl">
-             <p className="font-bold text-xs uppercase mb-2">Transparência</p>
-             <p>Em caso de abertura de disputa bancária (chargeback) indevida, a Caloriz.ai utiliza o seguinte modelo de declaração para comprovação de serviço prestado:</p>
+             <p className="font-bold text-xs uppercase mb-2">Declaração de Prestação de Serviço Digital</p>
              <div className="italic text-xs border-l-2 border-red-500 pl-3 py-1">
-                 "Eu, responsável pela plataforma Caloriz.ai, declaro que o usuário [NOME], realizou assinatura voluntária, aceitou os Termos de Uso e utilizou a plataforma conforme comprovado pelos registros anexos (Logins, Páginas Acessadas, etc). O serviço é digital e foi entregue imediatamente."
+                 "Eu, responsável pela plataforma Caloriz.ai, declaro que o usuário [NOME COMPLETO], e-mail [EMAIL], realizou assinatura voluntária do plano [MENSAL/ANUAL] na data [DATA], aceitou os Termos de Uso e utilizou a plataforma conforme comprovado pelos registros anexos: Data e hora de logins; Duração da sessão; Páginas acessadas; Acesso a conteúdo exclusivo; Utilização dos recursos premium. A solicitação de contestação (chargeback) é indevida, pois houve consumo do serviço prestado, o qual é digital, instantâneo e entregue imediatamente após a aprovação do pagamento. Solicitamos, portanto, o indeferimento da contestação."
              </div>
           </div>
         )
@@ -138,7 +145,14 @@ export default function PoliciesPage() {
         title: 'Política de Cookies',
         content: (
           <div className="space-y-4 text-sm text-zinc-600 dark:text-zinc-400">
-             <p>Utilizamos cookies essenciais (login/segurança), funcionais (preferências) e analíticos (desempenho). Ao utilizar a plataforma, você aceita este uso.</p>
+             <h4 className="font-bold dark:text-zinc-200 text-gray-800">1. Introdução</h4>
+             <p>A Caloriz.ai utiliza cookies para melhorar a experiência do usuário, garantir segurança e personalizar conteúdos.</p>
+             <h4 className="font-bold dark:text-zinc-200 text-gray-800">2. Tipos de Cookies Utilizados</h4>
+             <p>Essenciais: login, autenticação, segurança. Funcionais: salvar preferências e configurações. Analíticos: medir desempenho e comportamento. Marketing (se ativados futuramente): personalização de campanhas.</p>
+             <h4 className="font-bold dark:text-zinc-200 text-gray-800">3. Consentimento</h4>
+             <p>Ao utilizar a plataforma, o usuário aceita o uso de cookies conforme descrito.</p>
+             <h4 className="font-bold dark:text-zinc-200 text-gray-800">4. Desativação</h4>
+             <p>A desativação de cookies essenciais pode impedir o funcionamento da plataforma.</p>
           </div>
         )
     },
@@ -147,7 +161,12 @@ export default function PoliciesPage() {
         title: 'Termos de Licença de IA',
         content: (
           <div className="space-y-4 text-sm text-zinc-600 dark:text-zinc-400">
-             <p>O usuário entende que a IA fornece estimativas aproximadas e pode conter margens de erro. A IA não identifica patologias. Todo algoritmo é propriedade exclusiva da Caloriz.ai.</p>
+             <h4 className="font-bold dark:text-zinc-200 text-gray-800">1. Uso da IA</h4>
+             <p>O usuário entende que: A IA fornece estimativas aproximadas; Os resultados podem conter margens de erro; A IA não substitui avaliadores profissionais.</p>
+             <h4 className="font-bold dark:text-zinc-200 text-gray-800">2. Limitações da Tecnologia</h4>
+             <p>A IA não identifica alergias, patologias ou riscos de saúde.</p>
+             <h4 className="font-bold dark:text-zinc-200 text-gray-800">3. Propriedade Intelectual</h4>
+             <p>Todo algoritmo, modelo e mecanismo da Caloriz.ai é de propriedade exclusiva da empresa.</p>
           </div>
         )
     },
@@ -156,8 +175,7 @@ export default function PoliciesPage() {
         title: 'Responsabilidade Nutricional',
         content: (
           <div className="space-y-4 text-sm text-zinc-600 dark:text-zinc-400">
-             <p className="font-bold text-red-500">A Caloriz.ai não substitui nutricionistas.</p>
-             <p>A plataforma fornece estimativas baseadas em imagem. Toda decisão alimentar deve ser acompanhada por profissional da área.</p>
+             <p>A Caloriz.ai não substitui nutricionistas. A plataforma fornece estimativas baseadas em imagem, podendo apresentar divergências dependendo do: tipo de alimento, quantidade, iluminação, posição do prato, processamento da imagem. Toda decisão alimentar deve ser acompanhada por profissional da área.</p>
           </div>
         )
     },
@@ -185,7 +203,7 @@ export default function PoliciesPage() {
        {/* Header */}
        <div className="sticky top-0 z-10 bg-white/80 dark:bg-[#0c0c0e]/80 backdrop-blur-md border-b border-gray-200 dark:border-zinc-800 p-4 flex items-center gap-4">
             <button 
-                onClick={() => navigate('/profile')} 
+                onClick={() => navigate(-1)} 
                 className="p-2 bg-gray-100 dark:bg-zinc-800 rounded-full hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors"
             >
                 <ChevronLeft size={20} className="dark:text-white" />

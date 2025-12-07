@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../App';
 import * as MockService from '../services/mockSupabase';
@@ -25,12 +24,12 @@ export default function AdminPage() {
   const [userLogs, setUserLogs] = useState<UserLog[]>([]);
 
   useEffect(() => {
-      setNotificationsList(MockService.getNotifications());
+      MockService.getNotifications().then(setNotificationsList);
   }, []);
 
   useEffect(() => {
       if (selectedUser) {
-          setUserLogs(MockService.getUserLogs(selectedUser.id));
+          MockService.getUserLogs(selectedUser.id).then(setUserLogs);
       }
   }, [selectedUser]);
   
@@ -61,7 +60,7 @@ export default function AdminPage() {
       setUsersList(usersList.map(u => u.id === id ? {...u, isBanned: !u.isBanned} : u));
   };
 
-  const handleSendNotification = (e: React.FormEvent) => {
+  const handleSendNotification = async (e: React.FormEvent) => {
       e.preventDefault();
       if(!notifTitle || !notifMessage || !notifTime) return;
 
@@ -73,7 +72,7 @@ export default function AdminPage() {
           createdAt: Date.now()
       };
 
-      const updatedList = MockService.addNotification(newNotif);
+      const updatedList = await MockService.addNotification(newNotif);
       setNotificationsList(updatedList);
       
       // Reset Form

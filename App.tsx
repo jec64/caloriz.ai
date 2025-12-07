@@ -140,9 +140,14 @@ export default function App() {
   const [theme, setTheme] = useState<'light'|'dark'>(MockService.getAppConfig().themeMode);
 
   const refreshUser = async () => {
-    const u = await MockService.getCurrentUser();
-    setUser(u);
-    setLoading(false);
+    try {
+        const u = await MockService.getCurrentUser();
+        setUser(u);
+    } catch (e) {
+        console.error("Auth check failed", e);
+    } finally {
+        setLoading(false);
+    }
   };
   
   const toggleTheme = () => {
@@ -155,19 +160,18 @@ export default function App() {
     if (user) {
         MockService.addUserLog(user.id, 'LOGOUT', 'Saiu da plataforma');
     }
-    // With Supabase, we should also call signOut but the mock wrapper might handle state clearing.
-    // However, the new MockService implementation handles Supabase auth.
-    // For now, we simply set User null and reload, but ideally we call supabase.auth.signOut() via service.
-    // Since we don't have an explicit signOut in the "MockService" interface exported yet, we rely on local cleanup for UI.
-    // But strictly speaking we should add signOut to service.
-    localStorage.removeItem('sb-fzltzpzyzxhcphiemoel-auth-token'); // Clear supabase session manually if needed or just reload
+    localStorage.removeItem('sb-fzltzpzyzxhcphiemoel-auth-token');
     setUser(null);
     window.location.reload();
   };
 
   useEffect(() => {
-    // Initial check
+    // Initial check with safety timeout
     refreshUser();
+    
+    // Failsafe: If DB hangs, stop loading after 5s so user sees Login screen
+    const safetyTimer = setTimeout(() => setLoading(false), 5000);
+    return () => clearTimeout(safetyTimer);
   }, []);
 
   useEffect(() => {
@@ -218,9 +222,8 @@ export default function App() {
               <ProtectedRoute><MealPlanPage /></ProtectedRoute>
             } />
             
-             <Route path="/policies" element={
-              <ProtectedRoute><PoliciesPage /></ProtectedRoute>
-            } />
+            {/* PUBLIC ROUTE - ACCESSIBLE WITHOUT LOGIN */}
+             <Route path="/policies" element={<PoliciesPage />} />
             
              <Route path="/paywall" element={<PaywallPage />} />
 
