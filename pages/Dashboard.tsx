@@ -39,7 +39,7 @@ const CircularProgress = ({ value, max, color, size = 120, strokeWidth = 10, lab
         />
       </svg>
       <div className="absolute flex flex-col items-center justify-center text-center">
-        <span className={`text-2xl font-bold ${textColor ? textColor : 'dark:text-white text-gray-900'}`}>{Math.round(value)}</span>
+        <span className={`text-2xl font-bold ${textColor ? textColor : 'dark:text-white text-gray-900'}`}>{Math.round(value || 0)}</span>
         {label && <span className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">{label}</span>}
       </div>
     </div>
@@ -47,8 +47,9 @@ const CircularProgress = ({ value, max, color, size = 120, strokeWidth = 10, lab
 };
 
 const MacroCard = ({ icon: Icon, label, current, total, color, bgClass, textClass }: any) => {
-    const left = Math.max(0, total - current);
-    const percent = Math.min(100, (current / total) * 100);
+    const safeTotal = total || 1; // Prevent division by zero
+    const left = Math.max(0, safeTotal - current);
+    const percent = Math.min(100, (current / safeTotal) * 100);
     
     return (
         <div className="bg-white dark:bg-zinc-900/50 border border-gray-100 dark:border-zinc-800/50 p-4 rounded-3xl flex flex-col items-center relative overflow-hidden shadow-sm dark:shadow-none transition-colors">
@@ -64,7 +65,7 @@ const MacroCard = ({ icon: Icon, label, current, total, color, bgClass, textClas
             <div className="mt-2 mb-1">
                 <CircularProgress 
                     value={current} 
-                    max={total} 
+                    max={safeTotal} 
                     size={60} 
                     strokeWidth={6} 
                     color={color} 
@@ -84,19 +85,24 @@ export default function DashboardPage() {
   const [todayMacros, setTodayMacros] = useState<MacroData>({ calories: 0, protein: 0, carbs: 0, fats: 0, fiber: 0 });
   
   // Step Counter State
-  const [steps, setSteps] = useState(user?.currentSteps || 0);
+  const [steps, setSteps] = useState(0);
   const [isStepModalOpen, setStepModalOpen] = useState(false);
   const [addStepAmount, setAddStepAmount] = useState(0);
 
+  // Safety Check: If user isn't loaded yet (despite ProtectedRoute), prevent crash
+  if (!user) {
+      return <div className="p-6 text-center mt-20">Carregando dados do usuário...</div>;
+  }
+
   // Determine Goals (Custom or Calculated)
-  const GOALS = user?.customMacros || {
+  const GOALS = user.customMacros || {
     calories: 2500,
     protein: 160,
     carbs: 280,
     fats: 80,
     fiber: 30
   };
-  const STEP_GOAL = user?.dailyStepsGoal || 6000;
+  const STEP_GOAL = user.dailyStepsGoal || 6000;
 
   useEffect(() => {
     async function loadData() {
@@ -116,7 +122,7 @@ export default function DashboardPage() {
         setTodayMacros(totals);
     }
     loadData();
-    setSteps(user?.currentSteps || 0);
+    setSteps(user.currentSteps || 0);
   }, [user]);
 
   const handleAddSteps = async () => {
@@ -131,8 +137,8 @@ export default function DashboardPage() {
   const caloriesLeft = Math.max(0, GOALS.calories - todayMacros.calories);
 
   // Calculate Trial Days Left
-  const daysLeft = user ? 3 - Math.floor((Date.now() - user.createdAt) / (1000 * 60 * 60 * 24)) : 0;
-  const isTrial = !user?.isPremium && user?.email !== 'joao.fructuoso2021@gmail.com';
+  const daysLeft = 3 - Math.floor((Date.now() - user.createdAt) / (1000 * 60 * 60 * 24));
+  const isTrial = !user.isPremium && user.email !== 'joao.fructuoso2021@gmail.com';
 
   return (
     <div className="pb-32 p-6 max-w-md mx-auto animate-fade-in">
@@ -151,7 +157,7 @@ export default function DashboardPage() {
             {/* Trial Badge */}
             {isTrial && (
                 <div className="bg-red-500/10 text-red-600 dark:text-red-300 px-3 py-1 rounded-full text-xs font-bold border border-red-500/20">
-                    {daysLeft} dias rest.
+                    {Math.max(0, daysLeft)} dias rest.
                 </div>
             )}
             <div className="bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-full px-3 py-1.5 flex items-center gap-2 shadow-sm">
@@ -204,7 +210,7 @@ export default function DashboardPage() {
         </div>
         <div className="w-1/3">
              <div className="h-2 bg-gray-100 dark:bg-zinc-800 rounded-full overflow-hidden">
-                 <div className="h-full bg-green-500" style={{ width: `${Math.min(100, (steps/STEP_GOAL)*100)}%` }} />
+                 <div className="h-full bg-green-500" style={{ width: `${Math.min(100, (steps/Math.max(1, STEP_GOAL))*100)}%` }} />
              </div>
         </div>
       </div>

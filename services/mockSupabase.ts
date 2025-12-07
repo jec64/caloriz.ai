@@ -16,15 +16,25 @@ const defaultConfig: AppConfig = {
 // --- App Config (Local) ---
 
 export const getAppConfig = (): AppConfig => {
-  const stored = localStorage.getItem(STORAGE_CONFIG_KEY);
-  return stored ? JSON.parse(stored) : defaultConfig;
+  try {
+    const stored = localStorage.getItem(STORAGE_CONFIG_KEY);
+    return stored ? JSON.parse(stored) : defaultConfig;
+  } catch (e) {
+    console.error("Erro ao ler configurações locais (resetando):", e);
+    return defaultConfig;
+  }
 };
 
 export const updateAppConfig = (config: Partial<AppConfig>) => {
-  const current = getAppConfig();
-  const updated = { ...current, ...config };
-  localStorage.setItem(STORAGE_CONFIG_KEY, JSON.stringify(updated));
-  return updated;
+  try {
+    const current = getAppConfig();
+    const updated = { ...current, ...config };
+    localStorage.setItem(STORAGE_CONFIG_KEY, JSON.stringify(updated));
+    return updated;
+  } catch (e) {
+    console.error("Erro ao salvar configurações:", e);
+    return defaultConfig;
+  }
 };
 
 // --- Logs System (DB) ---
@@ -165,6 +175,18 @@ export const registerUser = async (
 
   if (authError) {
       console.error("SignUp Error:", authError);
+      
+      // Error Translation
+      if (authError.message.includes("Email signups are disabled")) {
+          throw new Error("O cadastro de novos usuários está desativado no Supabase (Settings > Auth > User Signups).");
+      }
+      if (authError.message.includes("User already registered")) {
+          throw new Error("Este e-mail já está cadastrado.");
+      }
+      if (authError.message.includes("Password should be at least")) {
+          throw new Error("A senha deve ter no mínimo 6 caracteres.");
+      }
+      
       throw new Error(authError.message);
   }
   
@@ -173,7 +195,6 @@ export const registerUser = async (
   // 2. If session exists (no email confirm needed), try to ensure profile exists
   // If no session (email confirm needed), getCurrentUser's self-healing will handle it later upon login.
   if (authData.session) {
-      // We can try to upsert here just in case, but let's rely on getCurrentUser or Trigger
       await addUserLog(authData.user.id, 'REGISTER', 'Conta criada na plataforma');
   }
 
@@ -206,7 +227,13 @@ export const loginUser = async (email: string, pass: string): Promise<UserProfil
 
     if (error) {
         console.error("Login Error:", error);
-        throw new Error("Credenciais inválidas ou e-mail não confirmado.");
+        if (error.message.includes("Email not confirmed")) {
+            throw new Error("E-mail não confirmado. Verifique sua caixa de entrada.");
+        }
+        if (error.message.includes("Invalid login credentials")) {
+             throw new Error("E-mail ou senha incorretos.");
+        }
+        throw new Error("Erro ao fazer login. Tente novamente.");
     }
     
     if (!data.user) throw new Error("Usuário não encontrado.");

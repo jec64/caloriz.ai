@@ -1,4 +1,20 @@
-CalorizAI é um web app inteligente focado em apoio nutricional moderno, combinando automação, registro contínuo e análises personalizadas.
-O sistema utiliza IA para gerar relatórios, interpretar padrões de comportamento alimentar, acompanhar métricas diárias e oferecer uma experiência mais completa no controle e evolução do usuário — mantendo simplicidade, privacidade e escalabilidade.
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-O projeto inclui uma arquitetura preparada para uso real em produção, com autenticação segura, área do usuário, recursos premium, painel administrativo e integração com serviços externos. Tudo foi estruturado pensando em crescimento, profissionalização e base sólida para futura formalização empresarial.
+# Run and deploy your AI Studio app
+
+This contains everything you need to run your app locally.
+
+View your app in AI Studio: https://ai.studio/apps/drive/1NJZQ5652Iag8QAvBZ8nie8PoPubj_ESX
+
+## Run Locally
+
+**Prerequisites:**  Node.js
+
+
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`

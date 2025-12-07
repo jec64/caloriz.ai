@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { Home, BarChart2, Settings, Plus, Camera, Dumbbell, FileText, Loader2 } from './components/Icons';
+import { Home, BarChart2, Settings, Plus, Camera, Dumbbell, FileText, Loader2, AlertTriangle } from './components/Icons';
 import * as MockService from './services/mockSupabase';
 import { UserProfile, Meal } from './types';
 
@@ -17,6 +17,48 @@ import PaywallPage from './pages/Paywall';
 import MealPlanPage from './pages/MealPlan';
 import WorkoutDetailPage from './pages/WorkoutDetail';
 import PoliciesPage from './pages/Policies';
+
+// ERROR BOUNDARY COMPONENT
+class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean; error: Error | null }> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error("Uncaught error:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6 text-center">
+            <div className="bg-red-500/10 p-4 rounded-full mb-4">
+                <AlertTriangle size={48} className="text-red-500" />
+            </div>
+            <h1 className="text-2xl font-bold text-white mb-2">Ops! Algo deu errado.</h1>
+            <p className="text-zinc-400 mb-6">Ocorreu um erro inesperado na aplicação.</p>
+            <button 
+                onClick={() => {
+                    localStorage.clear();
+                    window.location.reload();
+                }}
+                className="bg-red-600 text-white font-bold py-3 px-8 rounded-xl"
+            >
+                Reiniciar App
+            </button>
+            <p className="mt-4 text-xs text-zinc-600 break-all">{this.state.error?.message}</p>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
 
 // Context
 interface AppContextType {
@@ -137,7 +179,7 @@ const ProtectedRoute = ({ children }: { children?: React.ReactNode }) => {
 export default function App() {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
-  const [theme, setTheme] = useState<'light'|'dark'>(MockService.getAppConfig().themeMode);
+  const [theme, setTheme] = useState<'light'|'dark'>('dark');
 
   const refreshUser = async () => {
     try {
@@ -166,10 +208,18 @@ export default function App() {
   };
 
   useEffect(() => {
-    // Initial check with safety timeout
+    // 1. Safe Config Load
+    try {
+        const config = MockService.getAppConfig();
+        setTheme(config.themeMode);
+    } catch(e) {
+        console.error("Config load fail", e);
+    }
+
+    // 2. Initial Auth Check
     refreshUser();
     
-    // Failsafe: If DB hangs, stop loading after 5s so user sees Login screen
+    // 3. Failsafe: If DB hangs, stop loading after 5s so user sees Login screen
     const safetyTimer = setTimeout(() => setLoading(false), 5000);
     return () => clearTimeout(safetyTimer);
   }, []);
@@ -183,55 +233,57 @@ export default function App() {
   }, [theme]);
 
   return (
-    <AppContext.Provider value={{ user, refreshUser, logout, theme, toggleTheme, loading }}>
-      <Router>
-        <div className="min-h-screen bg-gray-50 dark:bg-[#09090b] text-gray-900 dark:text-white font-sans selection:bg-red-500/30 transition-colors duration-300">
-          <Routes>
-            <Route path="/login" element={<AuthPage mode="login" />} />
-            <Route path="/register" element={<AuthPage mode="register" />} />
-            
-            <Route path="/onboarding" element={
-               <ProtectedRoute><OnboardingPage /></ProtectedRoute>
-            } />
+    <ErrorBoundary>
+        <AppContext.Provider value={{ user, refreshUser, logout, theme, toggleTheme, loading }}>
+          <Router>
+            <div className="min-h-screen bg-gray-50 dark:bg-[#09090b] text-gray-900 dark:text-white font-sans selection:bg-red-500/30 transition-colors duration-300">
+              <Routes>
+                <Route path="/login" element={<AuthPage mode="login" />} />
+                <Route path="/register" element={<AuthPage mode="register" />} />
+                
+                <Route path="/onboarding" element={
+                   <ProtectedRoute><OnboardingPage /></ProtectedRoute>
+                } />
 
-            <Route path="/dashboard" element={
-              <ProtectedRoute><DashboardPage /></ProtectedRoute>
-            } />
-            
-            <Route path="/scanner" element={
-              <ProtectedRoute><ScannerPage /></ProtectedRoute>
-            } />
+                <Route path="/dashboard" element={
+                  <ProtectedRoute><DashboardPage /></ProtectedRoute>
+                } />
+                
+                <Route path="/scanner" element={
+                  <ProtectedRoute><ScannerPage /></ProtectedRoute>
+                } />
 
-             <Route path="/workouts" element={
-              <ProtectedRoute><WorkoutsPage /></ProtectedRoute>
-            } />
+                 <Route path="/workouts" element={
+                  <ProtectedRoute><WorkoutsPage /></ProtectedRoute>
+                } />
 
-            <Route path="/workout/:id" element={
-              <ProtectedRoute><WorkoutDetailPage /></ProtectedRoute>
-            } />
+                <Route path="/workout/:id" element={
+                  <ProtectedRoute><WorkoutDetailPage /></ProtectedRoute>
+                } />
 
-            <Route path="/profile" element={
-              <ProtectedRoute><ProfilePage /></ProtectedRoute>
-            } />
-            
-             <Route path="/admin" element={
-              <ProtectedRoute><AdminPage /></ProtectedRoute>
-            } />
-            
-             <Route path="/meal-plan" element={
-              <ProtectedRoute><MealPlanPage /></ProtectedRoute>
-            } />
-            
-            {/* PUBLIC ROUTE - ACCESSIBLE WITHOUT LOGIN */}
-             <Route path="/policies" element={<PoliciesPage />} />
-            
-             <Route path="/paywall" element={<PaywallPage />} />
+                <Route path="/profile" element={
+                  <ProtectedRoute><ProfilePage /></ProtectedRoute>
+                } />
+                
+                 <Route path="/admin" element={
+                  <ProtectedRoute><AdminPage /></ProtectedRoute>
+                } />
+                
+                 <Route path="/meal-plan" element={
+                  <ProtectedRoute><MealPlanPage /></ProtectedRoute>
+                } />
+                
+                {/* PUBLIC ROUTE - ACCESSIBLE WITHOUT LOGIN */}
+                 <Route path="/policies" element={<PoliciesPage />} />
+                
+                 <Route path="/paywall" element={<PaywallPage />} />
 
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          </Routes>
-          <BottomNav />
-        </div>
-      </Router>
-    </AppContext.Provider>
+                <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              </Routes>
+              <BottomNav />
+            </div>
+          </Router>
+        </AppContext.Provider>
+    </ErrorBoundary>
   );
 }
